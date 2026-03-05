@@ -7,7 +7,7 @@
     <a href="https://github.com/Career-Forge/careerforge/blob/main/LICENSE">License</a>
   </p>
   <p>
-    <img src="https://img.shields.io/github/license/Career-Forge/careerforge->color=blue" alt="License" />
+    <img src="https://img.shields.io/github/license/Career-Forge/careerforge?color=blue" alt="License" />
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome" />
     <img src="https://img.shields.io/badge/built%20with-AI-blueviolet" alt="Built with AI" />
   </p>
@@ -77,4 +77,5 @@ Contributions are welcome. Please open an issue before submitting a PR for signi
 GNU Affero General Public License v3.0 — see [LICENSE](LICENSE) for details.
 
 This means you can self-host freely, but any public deployment must remain open source under AGPL.
+
 
