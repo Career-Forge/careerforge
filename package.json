@@ -1,0 +1,14 @@
+{
+    "name": "careerforge",
+    "private": true,
+    "scripts": {
+        "dev:web": "pnpm --filter web dev",
+        "dev:core": "pnpm --filter core dev",
+        "build": "pnpm --filter \"./packages/**\" --filter \"./apps/**\" build",
+        "lint": "pnpm --filter \"./packages/**\" --filter \"./apps/**\" lint"
+    },
+    "devDependencies": {
+        "typescript": "^5.4.5",
+        "@types/node": "^20.12.12"
+    }
+}

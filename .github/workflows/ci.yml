@@ -1,0 +1,86 @@
+name: CareerForge CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install -g pnpm && pnpm install
+      - name: Run Node.js tests
+        run: pnpm test
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Run Python tests
+        run: |
+          pip install pytest
+          pytest apps/python-nlp-service/tests/
+
+  build-and-push:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # Push GCP-hosted images to Artifact Registry
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: Push core-backend to GCP Artifact Registry
+        run: |
+          docker build -t ${{ secrets.GCP_ARTIFACT_REGISTRY }}/core-backend:latest --target core-backend-final .
+          docker push ${{ secrets.GCP_ARTIFACT_REGISTRY }}/core-backend:latest
+
+      # Push Azure-hosted images to Azure Container Registry
+      - name: Log in to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+      - name: Push chat-bots-service to ACR
+        run: |
+          docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/chat-bots-service:latest --target chat-bots-final .
+          docker push ${{ secrets.ACR_LOGIN_SERVER }}/chat-bots-service:latest
+
+  deploy-gcp:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - name: Deploy core-backend to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v1
+        with:
+          service: careerforge-core-backend
+          image: ${{ secrets.GCP_ARTIFACT_REGISTRY }}/core-backend:latest
+          region: us-central1
+
+  deploy-azure:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Deploy chat-bots-service to Azure Container Apps
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          appName: careerforge-chat-bots
+          resourceGroupName: careerforge-rg
+          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/chat-bots-service:latest

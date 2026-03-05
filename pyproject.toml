@@ -1,0 +1,8 @@
+[tool.poetry]
+name = "careerforge"
+version = "0.1.0"
+description = "CareerForge Monorepo Python Services"
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
