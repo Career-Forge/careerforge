@@ -7,7 +7,7 @@
     <a href="https://github.com/Career-Forge/careerforge/blob/main/LICENSE">License</a>
   </p>
   <p>
-    <img src="https://img.shields.io/github/license/Career-Forge/careerforge?color=blue" alt="License" />
+    <img src="https://img.shields.io/badge/License-AGPL_v3-blue.svg" alt="License" />
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome" />
     <img src="https://img.shields.io/badge/built%20with-AI-blueviolet" alt="Built with AI" />
   </p>
