@@ -27,7 +27,7 @@ CareerForge is an open-source, multi-agent career platform that goes far beyond 
 | **Interview AI** | Voice-to-voice mock interviews with multiple AI interviewer personalities |
 | **Company Intel** | Deep company research — health scores, layoff tracking, sentiment analysis |
 | **Contact Finder** | Discover recruiters and hiring managers with AI-powered outreach drafts |
-| **Job Discovery** | Proactive job alerts via direct ATS API polling (Greenhouse, Lever, Ashby, Workday, etc) |
+| **Job Discovery** | Proactive job alerts via direct ATS API polling (Greenhouse, Lever, Ashby, Workday, etc.) |
 | **Job Tracker** | Full application lifecycle management with Kanban board |
 | **BYOK** | Bring Your Own Key — use your own API keys, your data stays yours |
 
